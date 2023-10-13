@@ -59,7 +59,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@TeleOp(name="Tank Mode with Mechanisms", group="Iterative Opmode")
 
 public class TankMode_WithMechanism extends OpMode
 {
@@ -72,6 +72,8 @@ public class TankMode_WithMechanism extends OpMode
     private Servo wrist = null;
     private Servo claw = null;
     // private Servo launcher = null;
+    private AprilTagProcessor aprilTag;
+    private VisionPortal visionPortal;
 
     public double buttonPressToPower (boolean buttonPress) {
         double buttonPower = 0.0;
@@ -80,8 +82,17 @@ public class TankMode_WithMechanism extends OpMode
         }
         return buttonPower;
     }
-    private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
+
+    public int integerToDouble (double bungus) {
+        int bloombus;
+        if (bungus > 0) {
+            bungus = bungus + (1 - bungus);
+        } else if (bungus < 0){
+            bungus = bungus + (-1 - bungus);
+        }
+        bloombus = (int)bungus;
+        return bloombus;
+    }
 
 
     /*
@@ -158,8 +169,8 @@ public class TankMode_WithMechanism extends OpMode
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        leftPower  = -gamepad1.left_stick_y ;
-        rightPower = -gamepad1.right_stick_y ;
+        leftPower  = -gamepad1.left_stick_y;
+        rightPower = -gamepad1.right_stick_y;
         armPower = -gamepad2.left_stick_y;
         wristUp = gamepad2.dpad_up;
         wristDown = gamepad2.dpad_down;
@@ -170,8 +181,10 @@ public class TankMode_WithMechanism extends OpMode
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
-        leftArm.setPower(armPower/2);
-        rightArm.setPower(armPower/2);
+        leftArm.setTargetPosition(leftArm.getCurrentPosition() + integerToDouble(armPower));
+        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightArm.setTargetPosition(rightArm.getCurrentPosition() + integerToDouble(armPower));
+        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         telemetryAprilTag();
 
         if (clawButtonOpen) {
