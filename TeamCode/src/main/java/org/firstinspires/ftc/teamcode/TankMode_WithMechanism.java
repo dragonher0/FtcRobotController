@@ -83,17 +83,6 @@ public class TankMode_WithMechanism extends OpMode
         return buttonPower;
     }
 
-    public int integerToDouble (double bungus) {
-        int bloombus;
-        if (bungus > 0) {
-            bungus = bungus + (1 - bungus);
-        } else if (bungus < 0){
-            bungus = bungus + (-1 - bungus);
-        }
-        bloombus = (int)bungus;
-        return bloombus;
-    }
-
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -161,6 +150,7 @@ public class TankMode_WithMechanism extends OpMode
         boolean wristDown;
         boolean clawButtonOpen;
         boolean clawButtonClose;
+        boolean defaultAutoButton;
         boolean launchButton;
         double x = claw.getPosition();
         double y = wrist.getPosition();
@@ -176,15 +166,12 @@ public class TankMode_WithMechanism extends OpMode
         wristDown = gamepad2.dpad_down;
         clawButtonOpen = gamepad2.a;
         clawButtonClose = gamepad2.b;
+        defaultAutoButton = gamepad2.y;
         // launchButton = gamepad2.x;
 
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
-        leftArm.setTargetPosition(leftArm.getCurrentPosition() + integerToDouble(armPower));
-        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightArm.setTargetPosition(rightArm.getCurrentPosition() + integerToDouble(armPower));
-        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         telemetryAprilTag();
 
         if (clawButtonOpen) {
@@ -193,14 +180,14 @@ public class TankMode_WithMechanism extends OpMode
                 if (!clawButtonOpen) {
                     claw.setPosition(0);
                 } else if (clawButtonClose) {
-                    claw.setPosition(270);
+                    claw.setPosition(180);
                 }
             }
         } else if (clawButtonClose) {
-            claw.setPosition(270);
-            if (x >= 270) {
+            claw.setPosition(180);
+            if (x >= 180) {
                 if (!clawButtonClose) {
-                    claw.setPosition(270);
+                    claw.setPosition(180);
                 } else if (clawButtonOpen) {
                     claw.setPosition(0);
                 }
@@ -224,6 +211,28 @@ public class TankMode_WithMechanism extends OpMode
                     claw.setPosition(0);
                 }
             }
+        }
+
+        if (armPower == 0){
+            leftArm.setTargetPosition(leftArm.getCurrentPosition());
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightArm.setTargetPosition(rightArm.getCurrentPosition());
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            leftArm.setPower(armPower/2);
+            rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightArm.setPower(armPower/2);
+        }
+
+        if (defaultAutoButton){
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(0);
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(0);
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            wrist.setPosition(0);
         }
 
         // launcher.setPosition(buttonPressToPower(launchButton));
