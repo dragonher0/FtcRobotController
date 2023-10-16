@@ -212,8 +212,15 @@ public class TankMode_WithMechanism extends OpMode
                 }
             }
         }
-
-        if (armPower == 0){
+        if (defaultAutoButton){
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(0);
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(0);
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            wrist.setPosition(0);
+        } else if (armPower == 0){
             leftArm.setTargetPosition(leftArm.getCurrentPosition());
             leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightArm.setTargetPosition(rightArm.getCurrentPosition());
@@ -225,15 +232,7 @@ public class TankMode_WithMechanism extends OpMode
             rightArm.setPower(armPower/2);
         }
 
-        if (defaultAutoButton){
-            leftArm.setPower(1);
-            leftArm.setTargetPosition(0);
-            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightArm.setPower(1);
-            rightArm.setTargetPosition(0);
-            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            wrist.setPosition(0);
-        }
+        
 
         // launcher.setPosition(buttonPressToPower(launchButton));
 
