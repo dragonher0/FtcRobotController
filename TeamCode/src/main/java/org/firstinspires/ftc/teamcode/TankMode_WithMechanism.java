@@ -71,7 +71,7 @@ public class TankMode_WithMechanism extends OpMode
     private DcMotor rightArm = null;
     private Servo wrist = null;
     private Servo claw = null;
-    // private Servo launcher = null;
+    private Servo launcher = null;
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
 
@@ -100,7 +100,7 @@ public class TankMode_WithMechanism extends OpMode
         rightArm = hardwareMap.get(DcMotor.class, "right_arm");
         wrist = hardwareMap.get(Servo.class, "wrist");
         claw = hardwareMap.get(Servo.class, "claw");
-        // launcher = hardwareMap.get(Servo.class, "launcher");
+        launcher = hardwareMap.get(Servo.class, "launcher");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -113,7 +113,8 @@ public class TankMode_WithMechanism extends OpMode
         wrist.setPosition(270);
         claw.setDirection(Servo.Direction.FORWARD);
         claw.setPosition(0);
-        // launcher.setDirection(Servo.Direction.FORWARD);
+        launcher.setDirection(Servo.Direction.REVERSE);
+        launcher.setPosition(0);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -151,9 +152,10 @@ public class TankMode_WithMechanism extends OpMode
         boolean clawButtonOpen;
         boolean clawButtonClose;
         boolean defaultAutoButton;
-        boolean launchButton;
+        boolean scoreButton;
         double x = claw.getPosition();
         double y = wrist.getPosition();
+        boolean launchButton;
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
@@ -167,7 +169,8 @@ public class TankMode_WithMechanism extends OpMode
         clawButtonOpen = gamepad2.a;
         clawButtonClose = gamepad2.b;
         defaultAutoButton = gamepad2.y;
-        // launchButton = gamepad2.x;
+        scoreButton = gamepad2.x;
+        launchButton = gamepad2.left_bumper;
 
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
@@ -212,7 +215,7 @@ public class TankMode_WithMechanism extends OpMode
                 }
             }
         }
-        if (defaultAutoButton){
+        if (defaultAutoButton) {
             leftArm.setPower(1);
             leftArm.setTargetPosition(0);
             leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -220,6 +223,14 @@ public class TankMode_WithMechanism extends OpMode
             rightArm.setTargetPosition(0);
             rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             wrist.setPosition(0);
+        } else if (scoreButton) {
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(550);
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(550);
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            wrist.setPosition(180);
         } else if (armPower == 0){
             leftArm.setTargetPosition(leftArm.getCurrentPosition());
             leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -232,13 +243,12 @@ public class TankMode_WithMechanism extends OpMode
             rightArm.setPower(armPower/2);
         }
 
-        
-
-        // launcher.setPosition(buttonPressToPower(launchButton));
+        launcher.setPosition(buttonPressToPower(launchButton));
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.addData("Arm", leftArm.getCurrentPosition());
     }
 
     /*
@@ -247,6 +257,7 @@ public class TankMode_WithMechanism extends OpMode
     @Override
     public void stop() {
     }
+
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
