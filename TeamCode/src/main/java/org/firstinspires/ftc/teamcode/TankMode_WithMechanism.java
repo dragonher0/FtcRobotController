@@ -170,7 +170,7 @@ public class TankMode_WithMechanism extends OpMode
         clawButtonClose = gamepad2.b;
         defaultAutoButton = gamepad2.y;
         scoreButton = gamepad2.x;
-        launchButton = gamepad2.left_bumper;
+        launchButton = gamepad2.right_bumper;
 
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);

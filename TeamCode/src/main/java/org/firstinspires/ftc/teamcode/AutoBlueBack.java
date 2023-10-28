@@ -59,11 +59,18 @@ public class AutoBlueBack extends LinearOpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
+        portal.setProcessorEnabled(firstPipelineRevised, true);
         while (opModeIsActive()) {
             telemetry.addLine(String.valueOf(firstPipelineRevised.getSelection()));
             telemetry.update();
-            sleep(1000);
+            sleep(5000);
+            telemetry.addLine(String.valueOf(firstPipelineRevised.getSelection()));
+            telemetry.update();
             YawPitchRollAngles robotOrientation;
             robotOrientation = imu.getRobotYawPitchRollAngles();
             double selection = firstPipelineRevised.getSelection();
@@ -72,17 +79,62 @@ public class AutoBlueBack extends LinearOpMode {
             double Roll  = robotOrientation.getRoll(AngleUnit.DEGREES);
 
             if (selection == 1) {
-                while (Yaw < 19) {
-                    leftDrive.setPower(-1);
-                    rightDrive.setPower(1);
+                while (Yaw < 16 && opModeIsActive()){
+                    leftDrive.setPower(-0.5);
+                    rightDrive.setPower(0.5);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
-                    Yaw   = robotOrientation.getYaw(AngleUnit.DEGREES);
+                    Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
+                }
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+            } else if (selection == 3) {
+                leftDrive.setPower(1);
+                rightDrive.setPower(1);
+                while (leftDrive.getCurrentPosition() < 1250) {}
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+            }
+            if (selection == 1) {
+                leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                leftDrive.setPower(1);
+                rightDrive.setPower(1);
+                while (leftDrive.getCurrentPosition() < 1800) {
+                    telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
+                    telemetry.update();
+                }
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+            } else if (selection == 3) {
+                while (Yaw > -45 && opModeIsActive()){
+                    leftDrive.setPower(0.5);
+                    telemetry.addData("Yaw", Yaw);
+                    telemetry.update();
+                    robotOrientation = imu.getRobotYawPitchRollAngles();
+                    Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
+                }
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+            } else if (selection == 2) {
+                leftDrive.setPower(1);
+                rightDrive.setPower(1);
+                while (leftDrive.getCurrentPosition() < 3600) {
+                    telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
+                    telemetry.update();
                 }
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
             }
+            leftDrive.setPower(-1);
+            rightDrive.setPower(-1);
+            sleep(250);
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);
+            break;
         }
 
 
