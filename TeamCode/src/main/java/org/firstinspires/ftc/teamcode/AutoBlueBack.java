@@ -55,14 +55,15 @@ public class AutoBlueBack extends LinearOpMode {
                 .addProcessor(firstPipelineRevised)
                 .setCameraResolution(new Size(1280, 720))
                 .build();
+        imu.resetYaw();
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         waitForStart();
         portal.setProcessorEnabled(firstPipelineRevised, true);
         while (opModeIsActive()) {
@@ -79,7 +80,7 @@ public class AutoBlueBack extends LinearOpMode {
             double Roll  = robotOrientation.getRoll(AngleUnit.DEGREES);
 
             if (selection == 1) {
-                while (Yaw < 16 && opModeIsActive()){
+                while (Yaw < 11 && opModeIsActive()){
                     leftDrive.setPower(-0.5);
                     rightDrive.setPower(0.5);
                     telemetry.addData("Yaw", Yaw);
@@ -90,8 +91,8 @@ public class AutoBlueBack extends LinearOpMode {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
             } else if (selection == 3) {
-                leftDrive.setPower(1);
-                rightDrive.setPower(1);
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(0.5);
                 while (leftDrive.getCurrentPosition() < 1250) {}
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
@@ -101,39 +102,46 @@ public class AutoBlueBack extends LinearOpMode {
             if (selection == 1) {
                 leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                leftDrive.setPower(1);
-                rightDrive.setPower(1);
-                while (leftDrive.getCurrentPosition() < 1800) {
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(0.5);
+                while (leftDrive.getCurrentPosition() < 2400) {
                     telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
                     telemetry.update();
                 }
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
             } else if (selection == 3) {
-                while (Yaw > -45 && opModeIsActive()){
+                while (Yaw > -35 && opModeIsActive()){
                     leftDrive.setPower(0.5);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
                     Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
                 }
-                leftDrive.setPower(0);
+                leftDrive.setPower(-0.5);
                 rightDrive.setPower(0);
+                while (Yaw < 0 && opModeIsActive()){
+                    leftDrive.setPower(-0.5);
+                    telemetry.addData("Yaw", Yaw);
+                    telemetry.update();
+                    robotOrientation = imu.getRobotYawPitchRollAngles();
+                    Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
+                }
             } else if (selection == 2) {
-                leftDrive.setPower(1);
-                rightDrive.setPower(1);
-                while (leftDrive.getCurrentPosition() < 3600) {
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(0.5);
+                while (leftDrive.getCurrentPosition() < 3700) {
                     telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
                     telemetry.update();
                 }
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
-            }
+            }/*
             leftDrive.setPower(-1);
             rightDrive.setPower(-1);
             sleep(250);
             leftDrive.setPower(0);
-            rightDrive.setPower(0);
+            rightDrive.setPower(0);*/
             break;
         }
 

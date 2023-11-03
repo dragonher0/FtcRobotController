@@ -237,10 +237,10 @@ public class TankMode_WithMechanism extends OpMode
             rightArm.setTargetPosition(rightArm.getCurrentPosition());
             rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else {
-            leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftArm.setPower(armPower/2);
-            rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightArm.setPower(armPower/2);
+            leftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftArm.setPower(armPower);
+            rightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightArm.setPower(armPower);
         }
 
         launcher.setPosition(buttonPressToPower(launchButton));
