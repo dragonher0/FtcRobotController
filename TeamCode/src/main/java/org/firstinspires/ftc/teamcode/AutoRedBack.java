@@ -145,19 +145,11 @@ public class AutoRedBack extends LinearOpMode {
                 }
                 leftDrive.setPower(-0.5);
                 rightDrive.setPower(-0.5);
-                while (leftDrive.getCurrentPosition() > 1900) {}
+                while (leftDrive.getCurrentPosition() > 1900) {
+                }
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
-            }/*
-            leftDrive.setPower(-1);
-            rightDrive.setPower(-1);
-            sleep(250);
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);*/
-
-
-
-
+            }
             break;
         }
 
