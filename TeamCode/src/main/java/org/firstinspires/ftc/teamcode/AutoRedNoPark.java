@@ -21,8 +21,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-@Autonomous(name="Auto Red Backstage")
-public class AutoRedBack extends LinearOpMode {
+@Autonomous(name="Auto Red No Park")
+public class AutoRedNoPark extends LinearOpMode {
     private FirstPipelineRevised firstPipelineRevised; //Create an object of the VisionProcessor Class
     private VisionPortal portal;
     private DcMotor leftDrive = null;
@@ -137,7 +137,7 @@ public class AutoRedBack extends LinearOpMode {
                     Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
                 }
             } else if (selection == 3) {
-                while (Yaw > -45 && opModeIsActive()){
+                while (Yaw > -55 && opModeIsActive()){
                     leftDrive.setPower(0.5);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
@@ -179,11 +179,11 @@ public class AutoRedBack extends LinearOpMode {
                 robotOrientation = imu.getRobotYawPitchRollAngles();
                 Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
                 if (Yaw > 0) {
-                    leftDrive.setPower(0.3);
-                    rightDrive.setPower(-0.3);
+                    leftDrive.setPower(0.15);
+                    rightDrive.setPower(-0.15);
                 } else {
-                    leftDrive.setPower(-0.3);
-                    rightDrive.setPower(0.3);
+                    leftDrive.setPower(-0.15);
+                    rightDrive.setPower(0.15);
                 }
                 if (Yaw < 0.5 && Yaw > -0.5) {break;}
             }
@@ -198,6 +198,7 @@ public class AutoRedBack extends LinearOpMode {
                     break;
                 }
             }
+            /*
             while (true) {
                 robotOrientation = imu.getRobotYawPitchRollAngles();
                 Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
@@ -234,7 +235,7 @@ public class AutoRedBack extends LinearOpMode {
                     rightDrive.setPower(0);
                     break;
                 }
-            }
+            }*/
 
         }
 

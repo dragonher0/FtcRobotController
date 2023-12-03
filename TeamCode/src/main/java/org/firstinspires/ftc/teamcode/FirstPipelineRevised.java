@@ -16,9 +16,9 @@ public class FirstPipelineRevised implements VisionProcessor
 {
     public Scalar nonSelectedColor = new Scalar(0,255,0);
     public Scalar selectedColor = new Scalar(0,0,255);
-    public Rect rectLeft = new Rect(150, 450, 40, 40);
-    public Rect rectMiddle = new Rect(800, 450, 40, 40);
-    public Rect rectRight = new Rect(1200, 450, 40, 40);
+    public Rect rectLeft = new Rect(50, 450, 80, 80);
+    public Rect rectMiddle = new Rect(600, 450, 80, 80);
+    public Rect rectRight = new Rect(1100, 450, 80, 80);
     public int selectedRect = 0;
     Selected select;
     double selected = 0;
