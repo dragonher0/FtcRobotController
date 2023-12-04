@@ -76,7 +76,9 @@ public class AutoRedNoPark extends LinearOpMode {
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "distance");
         //claw.setPosition(0);
         sleep(1000);
-        claw.setPosition(180);
+        // 0.5 good open
+        // 0.59 good close
+        claw.setPosition(0.59);
         while (opModeInInit()) {
             telemetry.addLine(String.valueOf(firstPipelineRevised.getSelection()));
             telemetry.update();
@@ -157,7 +159,7 @@ public class AutoRedNoPark extends LinearOpMode {
             } else if (selection == 2) {
                 leftDrive.setPower(0.5);
                 rightDrive.setPower(0.5);
-                while (leftDrive.getCurrentPosition() < 3900) {
+                while (leftDrive.getCurrentPosition() < 3500) {
                     telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
@@ -236,6 +238,7 @@ public class AutoRedNoPark extends LinearOpMode {
                     break;
                 }
             }*/
+            claw.setPosition(0.59);
 
         }
 

@@ -111,7 +111,7 @@ public class TankMode_WithMechanism extends OpMode
         wrist.setDirection(Servo.Direction.FORWARD);
         wrist.setPosition(270);
         claw.setDirection(Servo.Direction.FORWARD);
-        claw.setPosition(0);
+        claw.setPosition(0.5);
         launcher.setDirection(Servo.Direction.REVERSE);
         launcher.setPosition(0);
 
@@ -176,7 +176,7 @@ public class TankMode_WithMechanism extends OpMode
         rightDrive.setPower(rightPower);
         telemetryAprilTag();
 
-        if (clawButtonOpen) {
+        /*if (clawButtonOpen) {
             claw.setPosition(0);
             if (x == 0) {
                 if (!clawButtonOpen) {
@@ -194,6 +194,12 @@ public class TankMode_WithMechanism extends OpMode
                     claw.setPosition(0);
                 }
             }
+        }*/
+        if (clawButtonOpen) {
+            claw.setPosition(0.5);
+        }
+        if (clawButtonClose) {
+            claw.setPosition(0.59);
         }
         if (wristDown) {
             wrist.setPosition(0);
