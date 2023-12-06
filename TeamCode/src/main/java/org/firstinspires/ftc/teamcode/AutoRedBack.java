@@ -74,7 +74,7 @@ public class AutoRedBack extends LinearOpMode {
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ModernRoboticsI2cRangeSensor rangeSensor;
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "distance");
-        //claw.setPosition(0);
+        claw.setPosition(0.59);
         sleep(1000);
         claw.setPosition(180);
         while (opModeInInit()) {
@@ -235,6 +235,7 @@ public class AutoRedBack extends LinearOpMode {
                     break;
                 }
             }
+            claw.setPosition(0.5)
 
         }
 
