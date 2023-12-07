@@ -77,6 +77,10 @@ public class AutoBlue extends LinearOpMode {
         //claw.setPosition(0);
         sleep(1000);
         claw.setPosition(180);
+        while (opModeInInit()) {
+            telemetry.addLine(String.valueOf(firstPipelineRevised.getSelection()));
+            telemetry.update();
+        }
         waitForStart();
         portal.setProcessorEnabled(firstPipelineRevised, true);
         while (opModeIsActive()) {

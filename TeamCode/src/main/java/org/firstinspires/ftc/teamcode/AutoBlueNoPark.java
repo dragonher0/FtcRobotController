@@ -21,8 +21,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-@Autonomous(name="Auto Red Backstage")
-public class AutoRedBack extends LinearOpMode {
+@Autonomous(name="Auto Blue No Park")
+public class AutoBlueNoPark extends LinearOpMode {
     private FirstPipelineRevised firstPipelineRevised; //Create an object of the VisionProcessor Class
     private VisionPortal portal;
     private DcMotor leftDrive = null;
@@ -74,7 +74,7 @@ public class AutoRedBack extends LinearOpMode {
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ModernRoboticsI2cRangeSensor rangeSensor;
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "distance");
-        claw.setPosition(0.59);
+        //claw.setPosition(0);
         sleep(1000);
         claw.setPosition(180);
         while (opModeInInit()) {
@@ -83,10 +83,11 @@ public class AutoRedBack extends LinearOpMode {
         }
         waitForStart();
         portal.setProcessorEnabled(firstPipelineRevised, true);
-        if (opModeIsActive()) {
+        while (opModeIsActive()) {
             telemetry.addLine(String.valueOf(firstPipelineRevised.getSelection()));
             telemetry.update();
-
+            telemetry.addLine(String.valueOf(firstPipelineRevised.getSelection()));
+            telemetry.update();
             YawPitchRollAngles robotOrientation;
             robotOrientation = imu.getRobotYawPitchRollAngles();
             double selection = firstPipelineRevised.getSelection();
@@ -130,7 +131,7 @@ public class AutoRedBack extends LinearOpMode {
                 sleep(500);
                 while (Yaw > 0 && opModeIsActive()){
                     rightDrive.setPower(-0.5);
-                    leftDrive.setPower(0.1);
+                    leftDrive.setPower(0.2);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
@@ -148,7 +149,7 @@ public class AutoRedBack extends LinearOpMode {
                 rightDrive.setPower(0);
                 while (Yaw < 0 && opModeIsActive()){
                     leftDrive.setPower(-0.5);
-                    rightDrive.setPower(0.1);
+                    rightDrive.setPower(0.2);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
@@ -157,7 +158,7 @@ public class AutoRedBack extends LinearOpMode {
             } else if (selection == 2) {
                 leftDrive.setPower(0.5);
                 rightDrive.setPower(0.5);
-                while (leftDrive.getCurrentPosition() < 3900) {
+                while (leftDrive.getCurrentPosition() < 3400) {
                     telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
@@ -170,11 +171,6 @@ public class AutoRedBack extends LinearOpMode {
             }
             robotOrientation = imu.getRobotYawPitchRollAngles();
             Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
-            rightDrive.setPower(-0.2);
-            leftDrive.setPower(-0.2);
-            sleep(500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
             while (true) {
                 robotOrientation = imu.getRobotYawPitchRollAngles();
                 Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
@@ -192,51 +188,48 @@ public class AutoRedBack extends LinearOpMode {
             while (true) {
                 leftDrive.setPower(-0.7);
                 rightDrive.setPower(-0.7);
-                if (rangeSensor.getDistance(DistanceUnit.CM) < 15 ) {
+                if (rangeSensor.getDistance(DistanceUnit.CM) < 15) {
                     rightDrive.setPower(0);
                     leftDrive.setPower(0);
                     break;
                 }
-            }
+            }/*
             while (true) {
                 robotOrientation = imu.getRobotYawPitchRollAngles();
                 Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
-                if (Yaw < 90) {
-                    leftDrive.setPower(-0.2);
-                    rightDrive.setPower(0.2);
+                if (Yaw > -90) {
+                    leftDrive.setPower(0.5);
+                    rightDrive.setPower(-0.5);
                 } else {
-                    leftDrive.setPower(0.2);
-                    rightDrive.setPower(-0.2);
+                    leftDrive.setPower(-0.5);
+                    rightDrive.setPower(0.5);
                 }
-                if (Yaw < 90.5 && Yaw > 89.5) {break;}
+                if (Yaw > -90.5 && Yaw < -89.5) {break;}
             }
             while (true) {
                 robotOrientation = imu.getRobotYawPitchRollAngles();
                 Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
-                if (Yaw < 90) {
-                    leftDrive.setPower(-0.1);
-                    rightDrive.setPower(0.1);
-                } else {
+                if (Yaw > -90) {
                     leftDrive.setPower(0.1);
                     rightDrive.setPower(-0.1);
+                } else {
+                    leftDrive.setPower(-0.1);
+                    rightDrive.setPower(0.1);
                 }
-                if (Yaw < 90.1 && Yaw > 89.9) {break;}
+                if (Yaw > -90.1 && Yaw < -89.9) {break;}
             }
             while (true) {
                 robotOrientation = imu.getRobotYawPitchRollAngles();
                 Yaw = robotOrientation.getYaw(AngleUnit.DEGREES);
-                leftDrive.setPower(-1 + ((Yaw - 90) / 10));
-                rightDrive.setPower(-1 - ((Yaw - 90) / 10));
-                telemetry.addLine(String.valueOf(rangeSensor.getDistance(DistanceUnit.CM)));
-                telemetry.update();
+                leftDrive.setPower(-1 + ((Yaw + 90) / 10));
+                rightDrive.setPower(-1 - ((Yaw + 90) / 10));
                 if (rangeSensor.getDistance(DistanceUnit.CM) < 20) {
                     leftDrive.setPower(0);
                     rightDrive.setPower(0);
                     break;
                 }
-            }
-            claw.setPosition(0.5);
-
+            }*/
+            break;
         }
 
 
