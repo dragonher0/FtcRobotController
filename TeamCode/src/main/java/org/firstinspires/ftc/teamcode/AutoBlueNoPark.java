@@ -131,7 +131,7 @@ public class AutoBlueNoPark extends LinearOpMode {
                 sleep(500);
                 while (Yaw > 0 && opModeIsActive()){
                     rightDrive.setPower(-0.5);
-                    leftDrive.setPower(0.2);
+                    leftDrive.setPower(0.1);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
@@ -149,7 +149,7 @@ public class AutoBlueNoPark extends LinearOpMode {
                 rightDrive.setPower(0);
                 while (Yaw < 0 && opModeIsActive()){
                     leftDrive.setPower(-0.5);
-                    rightDrive.setPower(0.2);
+                    rightDrive.setPower(0.1);
                     telemetry.addData("Yaw", Yaw);
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();

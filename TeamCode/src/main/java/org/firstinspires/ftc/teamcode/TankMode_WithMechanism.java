@@ -199,7 +199,7 @@ public class TankMode_WithMechanism extends OpMode
             claw.setPosition(0.5);
         }
         if (clawButtonClose) {
-            claw.setPosition(0.59);
+            claw.setPosition(0.62);
         }
         if (wristDown) {
             wrist.setPosition(0);

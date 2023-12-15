@@ -157,7 +157,7 @@ public class AutoRedBack extends LinearOpMode {
             } else if (selection == 2) {
                 leftDrive.setPower(0.5);
                 rightDrive.setPower(0.5);
-                while (leftDrive.getCurrentPosition() < 3900) {
+                while (leftDrive.getCurrentPosition() < 3500) {
                     telemetry.addLine(String.valueOf(leftDrive.getCurrentPosition()));
                     telemetry.update();
                     robotOrientation = imu.getRobotYawPitchRollAngles();
