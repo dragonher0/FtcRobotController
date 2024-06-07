@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -26,9 +25,6 @@ public class Teleop extends LinearOpMode {
                 new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_435),
                 new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_435)
         );
-
-        RevIMU imu = new RevIMU(hardwareMap);
-        imu.init();
 
         // the extended gamepad object
         GamepadEx driverOp = new GamepadEx(gamepad1);
@@ -90,7 +86,7 @@ public class Teleop extends LinearOpMode {
                         driverOp.getLeftX(),
                         driverOp.getLeftY(),
                         driverOp.getRightX(),
-                        imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        0,   // gyro value passed in here must be in degrees
                         false
                 );
             }
