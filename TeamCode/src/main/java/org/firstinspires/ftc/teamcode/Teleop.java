@@ -100,6 +100,9 @@ public class Teleop extends LinearOpMode {
                         false
                 );
             }
+            if (gamepad1.a) {
+                imu.resetYaw();
+            }
 
         }
     }
