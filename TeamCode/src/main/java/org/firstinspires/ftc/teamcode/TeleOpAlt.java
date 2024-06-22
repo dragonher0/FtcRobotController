@@ -53,6 +53,11 @@ public class TeleOpAlt extends LinearOpMode {
         double target=180;
         PIDController pid = new PIDController(kP, kI, kD);
 
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         waitForStart();
         boolean lastturnstopped = false;
         if (isStopRequested()) return;
