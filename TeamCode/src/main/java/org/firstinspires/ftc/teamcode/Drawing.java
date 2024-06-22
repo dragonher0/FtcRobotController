@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 
 public final class Drawing {
-    private Drawing() {}
+    Drawing() {}
 
 
     public static void drawRobot(Canvas c, Pose2d t) {

@@ -4,19 +4,21 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
+@Disabled
 public class Teleop extends LinearOpMode {
 
     // This variable determines whether the following program
     // uses field-centric or robot-centric driving styles. The
     // differences between them can be read here in the docs:
     // https://docs.ftclib.org/ftclib/features/drivebases#control-scheme
-    static final boolean FIELD_CENTRIC = true;
+    static final boolean FIELD_CENTRIC = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
